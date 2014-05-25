@@ -3,7 +3,7 @@
 In case of Samsung devices using CM11:
 
 - Requires edit "CM11/android/device/samsung/smdk4412-common/BoardCommonConfig.mk" adding:
-	#Charging mode
+	##Charging mode
 	BOARD_CHARGING_MODE_BOOTING_LPM := /sys/class/power_supply/battery/batt_lp_charging
 	BOARD_BATTERY_DEVICE_NAME := "battery"
 	BOARD_ALLOW_SUSPEND_IN_CHARGER := true
@@ -12,14 +12,14 @@ In case of Samsung devices using CM11:
 	FORCE_REBOOT_WHEN_FULL := true
 
 - Requires edit "CM11/android/device/samsung/smdk4412-common/common.mk" adding/replacing:
-	#Charger
+	##Charger
 	PRODUCT_PACKAGES += \
 		bettercharger \
 		bettercharger_res_images
 	NOTE: By default CM not use "charger" for Samsung devices, it use private binary blobs playlpm
 
 - Requires edit "CM11/android/device/samsung/i9300/BoardConfig.mk" adding/replacing:
-	#Charging mode
+	##Charging mode
 	BOARD_CHARGER_RES := device/samsung/i9300/bettercharger/images
 	
 - Create folders "bettercharger/images" on "CM11/android/device/samsung/i9300/"
