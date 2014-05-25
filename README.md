@@ -57,5 +57,5 @@ But for correct execution we need to replace the original binary "/system/bin/pl
 	#!/system/bin/sh
 	mkdir -p /res/images
 	/system/bettercharger/bettercharger
-	
-The "mkdir" line is a "workarround" because ower binary expects to find this folder in recovery, but we don't use this folder.
+
+The "mkdir" line is a "workaround" because ower binary expects to find this folder in recovery, but we don't use this folder.
