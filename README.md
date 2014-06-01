@@ -46,15 +46,12 @@ NOTE: We don't modify lpm.rc because all prior ROMs use private playlpm binary, 
 
 By default charger is integrated on recovery for Nexus devices, maybe its required compile it the first time:
 
-	```bash
 	THREADS=1
 	croot
 	time make recoveryimage showcommands -j${THREADS}
-	```
 
 And the rest compilations, you can only compile bettercharger:
 
-	```bash
 	THREADS=1
 	cd ~/CM11/android
 	source build/envsetup.sh
@@ -62,7 +59,6 @@ And the rest compilations, you can only compile bettercharger:
 	export USE_CCACHE=1
 	cd system/core/bettercharger/
 	time mm
-	```
 
 The compiled output must be in:
 	~/CM11android/out/target/product/i9300/root/system/bettercharger
@@ -70,10 +66,8 @@ Using the same structure that goes to internal memory
 
 But for correct execution we need to replace the original binary "/system/bin/playlpm" with a script like this:
 
-	```bash
 	#!/system/bin/sh
 	mkdir -p /res/images
 	/system/bettercharger/bettercharger
-	```
 	
 The "mkdir" line is a "workaround" because ower binary expects to find this folder in recovery, but we don't use this folder.
