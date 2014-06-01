@@ -65,7 +65,7 @@
 #include <cutils/uevent.h>
 #include <getopt.h>
 
-#ifdef CHARGER_ENABLE_SUSPEND
+#ifdef BETTERCHARGER_ENABLE_SUSPEND
 #include <suspend/autosuspend.h>
 #endif
 
@@ -96,7 +96,7 @@
 
 #ifdef FORCE_REBOOT_WHEN_FULL
 /* Check for reboot time every X seconds * 1000 ms */
-#define CHECK_FOR_REBOOT_TIME	1000
+#define CHECK_FOR_REBOOT_TIME	(60 * MSEC_PER_SEC)
 #endif
 
 #ifdef SAMSUNG_DEVICE
@@ -509,7 +509,7 @@ static void remove_supply(struct charger *charger, struct power_supply *supply)
     free(supply);
 }
 
-#ifdef CHARGER_ENABLE_SUSPEND
+#ifdef BETTERCHARGER_ENABLE_SUSPEND
 static int request_suspend(bool enable)
 {
     if (enable)
@@ -1045,7 +1045,7 @@ static void redraw_screen(struct charger *charger)
 
 static void kick_animation(struct animation *anim)
 {
-#ifdef ALLOW_SUSPEND_IN_CHARGER
+#ifdef ALLOW_SUSPEND_IN_BETTERCHARGER
     write_file(SYS_POWER_STATE, "on", strlen("on"));
 #endif
     anim->run = true;
@@ -1074,7 +1074,7 @@ static void update_screen_state(struct charger *charger, int64_t now)
         set_backlight(false);
         gr_fb_blank(true);
 
-#ifdef ALLOW_SUSPEND_IN_CHARGER
+#ifdef ALLOW_SUSPEND_IN_BETTERCHARGER
         write_file(SYS_POWER_STATE, "mem", strlen("mem"));
 #endif
 
@@ -1266,17 +1266,11 @@ static void handle_power_supply_state(struct charger *charger, int64_t now)
             if (mode == QUICKBOOT) {
                 set_backlight(false);
                 gr_fb_blank(true);
-#ifdef FORCE_REBOOT_WHEN_FULL
 				request_suspend(true);
-                /* not exit, keep alive
-                 */
-#else
-                request_suspend(true);
                 /* exit here. There is no need to keep running when charger
                  * unplugged under QuickBoot mode
                  */
                 exit(0);
-#endif
             }
             charger->next_pwr_check = now + UNPLUGGED_SHUTDOWN_TIME;
             LOGI("[%lld] device unplugged: shutting down in %lld (@ %lld)\n",
@@ -1285,7 +1279,15 @@ static void handle_power_supply_state(struct charger *charger, int64_t now)
             LOGI("[%lld] shutting down\n", now);
             android_reboot(ANDROID_RB_POWEROFF, 0, 0);
         } else {
-            /* otherwise we already have a shutdown timer scheduled */
+#ifdef FORCE_REBOOT_WHEN_FULL
+			/* online supply present, reset shutdown timer if set,
+			 * check for reboot time every X seconds * 1000 ms */
+			LOGI("[%lld] device plugged in: shutdown cancelled\n", now);
+			LOGI("[%lld] device plugged in: cheking for reboot when full\n", now);
+			charger->next_pwr_check = CHECK_FOR_REBOOT_TIME;
+#else
+			/* otherwise we already have a shutdown timer scheduled */
+#endif
         }
     } else {
         /* online supply present, reset shutdown timer if set */
@@ -1293,7 +1295,12 @@ static void handle_power_supply_state(struct charger *charger, int64_t now)
             LOGI("[%lld] device plugged in: shutdown cancelled\n", now);
             kick_animation(charger->batt_anim);
         }
-        charger->next_pwr_check = -1;
+#ifdef FORCE_REBOOT_WHEN_FULL
+			/* check for reboot time every X seconds * 1000 ms */
+			charger->next_pwr_check = CHECK_FOR_REBOOT_TIME;
+#else
+			charger->next_pwr_check = -1;
+#endif
     }
 }
 
@@ -1318,7 +1325,12 @@ static void wait_next_event(struct charger *charger, int64_t now)
     if (next_event != -1 && next_event != INT64_MAX)
         timeout = max(0, next_event - now);
     else
-        timeout = -1;
+#ifdef FORCE_REBOOT_WHEN_FULL
+		/* check for reboot time every CHECK_FOR_REBOOT_TIME seconds */
+		timeout = CHECK_FOR_REBOOT_TIME;
+#else
+		timeout = -1;
+#endif
 
     LOGV("[%lld] blocking (%lld)\n", now, timeout);
     ret = ev_wait((int)timeout);
@@ -1569,7 +1581,7 @@ int main(int argc, char **argv)
     if (mode != QUICKBOOT)
         alarm_thread_create();
 
-    LOGI("--------------- STARTING CHARGER MODE ---------------\n");
+    LOGI("--------------- STARTING BETTERCHARGER MODE ---------------\n");
 
     gr_init();
     gr_font_size(&char_width, &char_height);
@@ -1611,7 +1623,7 @@ int main(int argc, char **argv)
 
     ev_sync_key_state(set_key_callback, charger);
 
-#ifndef CHARGER_DISABLE_INIT_BLANK
+#ifndef BETTERCHARGER_DISABLE_INIT_BLANK
     set_backlight(false);
     gr_fb_blank(true);
 #endif
