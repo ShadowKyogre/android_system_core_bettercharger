@@ -98,7 +98,7 @@ $(foreach _img, $(call find-subdir-subdir-files, "images", "*.png"), \
 endif
 
 include $(CLEAR_VARS)
-LOCAL_MODULE := bettercharger_system_bettercharger_images
+LOCAL_MODULE := bettercharger_res_images
 LOCAL_MODULE_TAGS := optional
 LOCAL_REQUIRED_MODULES := $(_img_modules)
 include $(BUILD_PHONY_PACKAGE)
