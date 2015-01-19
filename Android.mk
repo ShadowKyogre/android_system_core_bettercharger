@@ -82,7 +82,7 @@ ifeq ($(strip $(BOARD_IMAGES_ON_SYSTEM)),true)
 LOCAL_MODULE_PATH := $$(TARGET_ROOT_OUT)/system/bettercharger/images
 else
 # Binary files on /recovery
-LOCAL_MODULE_PATH := $$(TARGET_ROOT_OUT)/res/images
+LOCAL_MODULE_PATH := $$(TARGET_ROOT_OUT)/res/images/bettercharger
 endif
 include $$(BUILD_PREBUILT)
 endef
