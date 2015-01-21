@@ -92,7 +92,7 @@
 #define POWER_ON_KEY_TIME       (2 * MSEC_PER_SEC)
 #define UNPLUGGED_SHUTDOWN_TIME (10 * MSEC_PER_SEC)
 
-#define BATTERY_FULL_THRESH     95
+#define BATTERY_FULL_THRESH     100
 
 #ifdef FORCE_REBOOT_WHEN_FULL
 /* Check for reboot time every X seconds * 1000 ms */
@@ -205,33 +205,108 @@ struct uevent {
  *  */
 static struct frame batt_anim_frames[] = {
     {
-        .name = "../../system/bettercharger/images/battery_0",
+        .name = "../../system/bettercharger/battery_0",
         .disp_time = 750,
         .min_capacity = 0,
     },
     {
-        .name = "../../system/bettercharger/images/battery_1",
+        .name = "../../system/bettercharger/battery_5",
+        .disp_time = 750,
+        .min_capacity = 5,
+    },
+    {
+        .name = "../../system/bettercharger/battery_10",
+        .disp_time = 750,
+        .min_capacity = 10,
+    },
+    {
+        .name = "../../system/bettercharger/battery_15",
+        .disp_time = 750,
+        .min_capacity = 15,
+    },
+    {
+        .name = "../../system/bettercharger/battery_20",
         .disp_time = 750,
         .min_capacity = 20,
     },
     {
-        .name = "../../system/bettercharger/images/battery_2",
+        .name = "../../system/bettercharger/battery_25",
+        .disp_time = 750,
+        .min_capacity = 25,
+    },
+    {
+        .name = "../../system/bettercharger/battery_30",
+        .disp_time = 750,
+        .min_capacity = 30,
+    },
+    {
+        .name = "../../system/bettercharger/battery_35",
+        .disp_time = 750,
+        .min_capacity = 35,
+    },
+    {
+        .name = "../../system/bettercharger/battery_40",
         .disp_time = 750,
         .min_capacity = 40,
     },
     {
-        .name = "../../system/bettercharger/images/battery_3",
+        .name = "../../system/bettercharger/battery_45",
+        .disp_time = 750,
+        .min_capacity = 45,
+    },
+    {
+        .name = "../../system/bettercharger/battery_50",
+        .disp_time = 750,
+        .min_capacity = 50,
+    },
+    {
+        .name = "../../system/bettercharger/battery_55",
+        .disp_time = 750,
+        .min_capacity = 55,
+    },
+    {
+        .name = "../../system/bettercharger/battery_60",
         .disp_time = 750,
         .min_capacity = 60,
     },
     {
-        .name = "../../system/bettercharger/images/battery_4",
+        .name = "../../system/bettercharger/battery_65",
+        .disp_time = 750,
+        .min_capacity = 65,
+    },
+    {
+        .name = "../../system/bettercharger/battery_70",
+        .disp_time = 750,
+        .min_capacity = 70,
+    },
+    {
+        .name = "../../system/bettercharger/battery_75",
+        .disp_time = 750,
+        .min_capacity = 75,
+    },
+    {
+        .name = "../../system/bettercharger/battery_80",
         .disp_time = 750,
         .min_capacity = 80,
 //        .level_only = true,
     },
     {
-        .name = "../../system/bettercharger/images/battery_5",
+        .name = "../../system/bettercharger/battery_85",
+        .disp_time = 750,
+        .min_capacity = 85,
+    },
+    {
+        .name = "../../system/bettercharger/battery_90",
+        .disp_time = 750,
+        .min_capacity = 90,
+    },
+    {
+        .name = "../../system/bettercharger/battery_95",
+        .disp_time = 750,
+        .min_capacity = 95,
+    },
+    {
+        .name = "../../system/bettercharger/battery_100",
         .disp_time = 750,
         .min_capacity = BATTERY_FULL_THRESH,
     }
@@ -245,31 +320,106 @@ static struct frame batt_anim_frames[] = {
         .min_capacity = 0,
     },
     {
-        .name = "bettercharger/battery_1",
+        .name = "bettercharger/battery_5",
+        .disp_time = 750,
+        .min_capacity = 5,
+    },
+    {
+        .name = "bettercharger/battery_10",
+        .disp_time = 750,
+        .min_capacity = 10,
+    },
+    {
+        .name = "bettercharger/battery_15",
+        .disp_time = 750,
+        .min_capacity = 15,
+    },
+    {
+        .name = "bettercharger/battery_20",
         .disp_time = 750,
         .min_capacity = 20,
     },
     {
-        .name = "bettercharger/battery_2",
+        .name = "bettercharger/battery_25",
+        .disp_time = 750,
+        .min_capacity = 25,
+    },
+    {
+        .name = "bettercharger/battery_30",
+        .disp_time = 750,
+        .min_capacity = 30,
+    },
+    {
+        .name = "bettercharger/battery_35",
+        .disp_time = 750,
+        .min_capacity = 35,
+    },
+    {
+        .name = "bettercharger/battery_40",
         .disp_time = 750,
         .min_capacity = 40,
     },
     {
-        .name = "bettercharger/battery_3",
+        .name = "bettercharger/battery_45",
+        .disp_time = 750,
+        .min_capacity = 45,
+    },
+    {
+        .name = "bettercharger/battery_50",
+        .disp_time = 750,
+        .min_capacity = 50,
+    },
+    {
+        .name = "bettercharger/battery_55",
+        .disp_time = 750,
+        .min_capacity = 55,
+    },
+    {
+        .name = "bettercharger/battery_60",
         .disp_time = 750,
         .min_capacity = 60,
     },
     {
-        .name = "bettercharger/battery_4",
+        .name = "bettercharger/battery_65",
+        .disp_time = 750,
+        .min_capacity = 65,
+    },
+    {
+        .name = "bettercharger/battery_70",
+        .disp_time = 750,
+        .min_capacity = 70,
+    },
+    {
+        .name = "bettercharger/battery_75",
+        .disp_time = 750,
+        .min_capacity = 75,
+    },
+    {
+        .name = "bettercharger/battery_80",
         .disp_time = 750,
         .min_capacity = 80,
 //        .level_only = true,
     },
     {
-        .name = "bettercharger/battery_5",
+        .name = "bettercharger/battery_85",
+        .disp_time = 750,
+        .min_capacity = 85,
+    },
+    {
+        .name = "bettercharger/battery_90",
+        .disp_time = 750,
+        .min_capacity = 90,
+    },
+    {
+        .name = "bettercharger/battery_95",
+        .disp_time = 750,
+        .min_capacity = 95,
+    },
+    {
+        .name = "bettercharger/battery_100",
         .disp_time = 750,
         .min_capacity = BATTERY_FULL_THRESH,
-    },
+    }
 };
 #endif
 
@@ -950,7 +1100,7 @@ static void draw_capacity(struct charger *charger)
     snprintf(cap_str, sizeof(cap_str), "%d%%", charger->batt_anim->capacity);
     str_len_px = gr_measure(cap_str);
     x = (gr_fb_width() - str_len_px) / 2;
-    y = (gr_fb_height() / 2 )+ char_height * 13;
+    y = (gr_fb_height() / 2 )+ char_height * 16;
     android_cyan();
     gr_text(x, y, cap_str, 0);
     draw_charge_type();
@@ -1003,11 +1153,11 @@ static void draw_unknown(struct charger *charger)
 		if (charger->batt_anim->num_frames == 0) {
 			/* Convert int to char */
 			snprintf(cap_str, sizeof(cap_str), "%d%%", charger->batt_anim->capacity);
-			draw_text(cap_str, -1, y + 25);
+			draw_text(cap_str, -1, y + 13);
 			
 			draw_text_bottom_warning("WARNING: Images not found!");
 		} else {
-			draw_text("\? \%", -1, y + 25);
+			draw_text("\? \%", -1, y + 13);
 			draw_text_bottom_warning("WARNING: Battery capacity not found!");
 		}
         
