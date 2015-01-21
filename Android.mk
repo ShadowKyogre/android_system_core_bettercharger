@@ -34,12 +34,12 @@ ifeq ($(strip $(BOARD_IMAGES_ON_SYSTEM)),true)
 LOCAL_MODULE_PATH := $(TARGET_ROOT_OUT)/system/bettercharger
 else
 # Binary files on /recovery
-LOCAL_MODULE_PATH := $(TARGET_ROOT_OUT)
+LOCAL_MODULE_PATH := $(TARGET_ROOT_OUT_SBIN)
 endif
 
-LOCAL_UNSTRIPPED_PATH := $(TARGET_ROOT_OUT_UNSTRIPPED)
+LOCAL_UNSTRIPPED_PATH := $(TARGET_ROOT_OUT_SBIN_UNSTRIPPED)
 
-LOCAL_C_INCLUDES := $(call project-path-for, recovery)
+LOCAL_C_INCLUDES := $(call project-path-for,recovery)
 
 LOCAL_STATIC_LIBRARIES := libminui libpixelflinger_static libpng
 ifeq ($(strip $(BOARD_BETTERCHARGER_ENABLE_SUSPEND)),true)
